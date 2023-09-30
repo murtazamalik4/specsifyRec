@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Laralink">
+    <title>Receipt Invoice</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
+
+        body {
+            color: #666;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.4em;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f6fa;
+        }
+
+        .tm_pos_invoice_wrap {
+            max-width: 340px;
+            margin: auto;
+            margin-top: 30px;
+            padding: 30px 20px;
+            background-color: #fff;
+        }
+
+        .tm_pos_company_logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 7px;
+        }
+
+        .tm_pos_company_logo img {
+            vertical-align: middle;
+            border: 0;
+            max-width: 100%;
+            height: auto;
+            max-height: 45px;
+        }
+
+        .tm_pos_invoice_top {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .tm_pos_invoice_heading {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 500;
+            margin: 10px 0;
+        }
+
+        .tm_pos_invoice_heading:before {
+            content: '';
+            position: absolute;
+            height: 0;
+            width: 100%;
+            left: 0;
+            top: 46%;
+            border-top: 1px dashed #666;
+        }
+
+        .tm_pos_invoice_heading span {
+            display: inline-flex;
+            padding: 0 5px;
+            background-color: #fff;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .tm_list.tm_style1 {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tm_list.tm_style1 li {
+            display: flex;
+            width: 50%;
+            font-size: 12px;
+            line-height: 1.2em;
+            margin-bottom: 7px;
+        }
+
+        .text-right {
+            text-align: right;
+            justify-content: flex-end;
+        }
+
+        .tm_list_title {
+            color: #111;
+            margin-right: 4px;
+            font-weight: 500;
+        }
+
+        .tm_invoice_seperator {
+            width: 150px;
+            border-top: 1px dashed #666;
+            margin: 9px 0;
+            margin-left: auto;
+        }
+
+        .tm_pos_invoice_table {
+            width: 100%;
+            margin-top: 10px;
+            line-height: 1.3em;
+        }
+
+        .tm_pos_invoice_table thead th {
+            font-weight: 500;
+            color: #111;
+            text-align: left;
+            padding: 8px 3px;
+            border-top: 1px dashed #666;
+            border-bottom: 1px dashed #666;
+        }
+
+        .tm_pos_invoice_table td {
+            padding: 4px;
+        }
+
+        .tm_pos_invoice_table tbody tr:first-child td {
+            padding-top: 10px;
+        }
+
+        .tm_pos_invoice_table tbody tr:last-child td {
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #666;
+        }
+
+        .tm_pos_invoice_table th:last-child,
+        .tm_pos_invoice_table td:last-child {
+            text-align: right;
+            padding-right: 0;
+        }
+
+        .tm_pos_invoice_table th:first-child,
+        .tm_pos_invoice_table td:first-child {
+            padding-left: 0;
+        }
+
+        .tm_pos_invoice_table tr {
+            vertical-align: baseline;
+        }
+
+        .tm_bill_list {
+            list-style: none;
+            margin: 0;
+            padding: 12px 0;
+            border-bottom: 1px dashed #666;
+        }
+
+        .tm_bill_list_in {
+            display: flex;
+            text-align: right;
+            justify-content: flex-end;
+            padding: 3px 0;
+        }
+
+        .tm_bill_title {
+            padding-right: 20px;
+        }
+
+        .tm_bill_value {
+            width: 90px;
+        }
+
+        .tm_bill_value.tm_bill_focus,
+        .tm_bill_title.tm_bill_focus {
+            font-weight: 500;
+            color: #111;
+        }
+
+        .tm_pos_invoice_footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .tm_pos_sample_text {
+            text-align: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #666;
+            line-height: 1.6em;
+            color: #9c9c9c;
+        }
+
+        .tm_pos_company_name {
+            font-weight: 500;
+            color: #111;
+            font-size: 13px;
+            line-height: 1.4em;
+        }
+
+        #eye-numbers-table {
+            width: 100% !important;
+            margin-top: 10px;
+            line-height: 1.3em;
+        }
+
+        #eye-numbers-table th,
+        #eye-numbers-table td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .image-container {
+            width: 200px;
+            height: auto;
+            /* Adjust the desired width here */
+        }
+
+        .image-container img {
+            width:50%;
+            height: auto;
+        }
+
+        /* #eye-numbers-table th {
+            background-color: #f2f2f2;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="tm_pos_invoice_wrap">
+        <div class="tm_pos_invoice_top">
+            <div class="tm_pos_company_logo">
+                <div class="image-container">
+                    <img src="../specLogo.png">
+                </div>
+            </div>
+            <div class="tm_pos_company_name">Specsify</div>
+            <div class="tm_pos_company_address">Bhopal</div>
+            <div class="tm_pos_company_mobile">Email: demo@gmail.com</div>
+        </div>
+
+        <!-- eye number-------- -->
+
+        <!-- <div>
+            <table id="eye-numbers-table">
+                <col>
+                <colgroup span="2"></colgroup>
+                <colgroup span="2"></colgroup>
+                <tr>
+                    
+                    <th colspan="5" scope="colgroup">Right Eye</th>
+                    <th colspan="1" scope="colgroup">VA</th>
+                    <th colspan="4" scope="colgroup">Left Eye</th>
+                    <th colspan="1" scope="colgroup">VA</th>
+                </tr>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Sph</th>
+                    <th scope="col">Cyl</th>
+                    <th scope="col">Axis</th>
+                    <th scope="col">Prism</th>
+
+                    <th scope="col"></th>
+                    <th scope="col">Sph</th>
+                    <th scope="col">Cyl</th>
+                    <th scope="col">Axis</th>
+                    <th scope="col">Prism</th>
+                    <th scope="col"></th>
+                </tr>
+
+                <tr>
+                    <th scope="row">Distant</th>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>-1</td>
+                    <td>-2</td>
+                    <td>OD</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>OD</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Add</th>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>-1</td>
+                    <td>-2</td>
+                    <td>OD</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>OD</td>
+                </tr>
+            </table>
+        </div> -->
+
+
+        <div>
+            <table id="eye-numbers-table">
+                <col>
+                <colgroup span="2"></colgroup>
+                <colgroup span="2"></colgroup>
+                <tr>
+                    <th colspan="5" scope="colgroup">Right Eye</th>
+                    <th colspan="1" scope="colgroup">VA</th>
+                </tr>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Sph</th>
+                    <th scope="col">Cyl</th>
+                    <th scope="col">Axis</th>
+                    <th scope="col">Prism</th>
+                    <th scope="col"></th>
+                </tr>
+
+                <tr>
+                    <th scope="row">Distant</th>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>-1</td>
+                    <td>-2</td>
+                    <td>OD</td>
+                </tr>
+                <tr>
+                    <th scope="row">Add</th>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>-1</td>
+                    <td>-2</td>
+                    <td>OD</td>
+                </tr>
+            </table>
+
+            <table id="eye-numbers-table">
+                <col>
+                <colgroup span="2"></colgroup>
+                <tr>
+                    <th colspan="5" scope="colgroup">Left Eye</th>
+                    <th colspan="1" scope="colgroup">VA</th>
+                </tr>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Sph</th>
+                    <th scope="col">Cyl</th>
+                    <th scope="col">Axis</th>
+                    <th scope="col">Prism</th>
+                    <th scope="col"></th>
+                </tr>
+
+                <tr>
+                    <th scope="row">Distant</th>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>OD</td>
+                </tr>
+                <tr>
+                    <th scope="row">Add</th>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>OD</td>
+                </tr>
+            </table>
+        </div>
+
+
+
+        <div class="tm_pos_invoice_body">
+            <div class="tm_pos_invoice_heading"><span>Retail Receipt</span></div>
+            <ul class="tm_list tm_style1">
+                <li>
+                    <div class="tm_list_title">Name:</div>
+                    <div class="tm_list_desc">Lowell Dominguez</div>
+                </li>
+                <li class="text-right">
+                    <div class="tm_list_title">Invoice No:</div>
+                    <div class="tm_list_desc">CS132453</div>
+                </li>
+                <li>
+                    <div class="tm_list_title">Customer Id:</div>
+                    <div class="tm_list_desc">#LL93784</div>
+                </li>
+                <li class="text-right">
+                    <div class="tm_list_title">Date:</div>
+                    <div class="tm_list_desc"> 01.07.2022</div>
+                </li>
+            </ul>
+            <table class="tm_pos_invoice_table">
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1.</td>
+                        <td>Vim animal</td>
+                        <td>$50</td>
+                        <td>3</td>
+                        <td>$150</td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td>Tollit eruditi per</td>
+                        <td>$30</td>
+                        <td>2</td>
+                        <td>$60</td>
+                    </tr>
+                    <tr>
+                        <td>3.</td>
+                        <td>Noluisse</td>
+                        <td>$100</td>
+                        <td>3</td>
+                        <td>$300</td>
+                    </tr>
+                    <tr>
+                        <td>4.</td>
+                        <td>Zril dicere</td>
+                        <td>$7.50</td>
+                        <td>4</td>
+                        <td>$30</td>
+                    </tr>
+                    <tr>
+                        <td>5.</td>
+                        <td>Noluisse</td>
+                        <td>$100</td>
+                        <td>3</td>
+                        <td>$300</td>
+                    </tr>
+                    <tr>
+                        <td>6.</td>
+                        <td>Docendi percipit</td>
+                        <td>$70</td>
+                        <td>1</td>
+                        <td>$70</td>
+                    </tr>
+                    <tr>
+                        <td>7.</td>
+                        <td>Inani oblique</td>
+                        <td>$15</td>
+                        <td>2</td>
+                        <td>$30</td>
+                    </tr>
+                    <tr>
+                        <td>8.</td>
+                        <td>Vituperatoribus</td>
+                        <td>$100</td>
+                        <td>1</td>
+                        <td>$100</td>
+                    </tr>
+                    <tr>
+                        <td>9.</td>
+                        <td>Timeam fuisset</td>
+                        <td>$100</td>
+                        <td>3</td>
+                        <td>$300</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="tm_bill_list">
+                <div class="tm_bill_list_in">
+                    <div class="tm_bill_title">Sub-Total:</div>
+                    <div class="tm_bill_value">$1340.00</div>
+                </div>
+                <div class="tm_bill_list_in">
+                    <div class="tm_bill_title">Discount: </div>
+                    <div class="tm_bill_value">-$150.00</div>
+                </div>
+                <div class="tm_invoice_seperator"></div>
+                <div class="tm_bill_list_in">
+                    <div class="tm_bill_title">Service charge:</div>
+                    <div class="tm_bill_value">0.00tk</div>
+                </div>
+                <div class="tm_bill_list_in">
+                    <div class="tm_bill_title">Tax(5%):</div>
+                    <div class="tm_bill_value">$67</div>
+                </div>
+                <div class="tm_invoice_seperator"></div>
+                <div class="tm_bill_list_in">
+                    <div class="tm_bill_title">Total Bill:</div>
+                    <div class="tm_bill_value">$1257</div>
+                </div>
+                <div class="tm_bill_list_in">
+                    <div class="tm_bill_title">Due :</div>
+                    <div class="tm_bill_value">257.00tk</div>
+                </div>
+                <div class="tm_bill_list_in">
+                    <div class="tm_bill_title tm_bill_focus">Total payable:</div>
+                    <div class="tm_bill_value tm_bill_focus">1000.00tk</div>
+                </div>
+            </div>
+            <div class="tm_pos_sample_text">**VAT against this challan is payable through central registration. Thank
+                you for your business!</div>
+            <div class="tm_pos_invoice_footer">Powered by Invoma Ltd</div>
+        </div>
+    </div>
+</body>
+
+</html>
